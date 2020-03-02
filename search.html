@@ -226,7 +226,7 @@
                             <a href="#" @click.prevent="prePage">«上一页</a>
                         </li>
                         <li :class="{active: index(i)===search.page}" v-for="i in Math.min(totalPage,5)" :key="i">
-                            <a href="#" v-text="index(i)"></a>
+                            <a href="#" @click.prevent="now(i)" v-text="index(i)"></a>
                         </li>
                         <li class="dotted" v-show="search.page+2<totalPage && totalPage>5"><span>...</span></li>
                         <li :class="{next:true ,disabled: search.page === totalPage}">
@@ -414,6 +414,15 @@
                     return i+(this.totalPage-5);
                 }else{
                     return i+(this.search.page-3);
+                }
+            },
+            now(i){
+                if(this.search.page <= 3 || this.totalPage<=5){
+                    this.search.page =  i;
+                }else if(this.search.page >= this.totalPage-2){
+                    this.search.page =  i+(this.totalPage-5);
+                }else{
+                   this.search.page = i+(this.search.page-3);
                 }
             },
             prePage(){
